@@ -37,9 +37,7 @@ public class LineSegment {
     /**
      * Draws this line segment to standard draw.
      */
-    public void draw() {
-        p.drawTo(q);
-    }
+    public void draw() { p.drawTo(q); }
 
     /**
      * Returns a string representation of this line segment

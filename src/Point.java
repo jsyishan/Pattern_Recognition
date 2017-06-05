@@ -115,13 +115,12 @@ public class Point implements Comparable<Point> {
     private class SlopeOrder implements Comparator<Point> {
         @Override
         public int compare(Point p1, Point p2){
-            if (p1.slopeTo(p2) == Double.NEGATIVE_INFINITY || p1.slopeTo(p2) == Double.POSITIVE_INFINITY) {
-                return 0;
-            }
-            if (p1.slopeTo(p2) < 0) {
+            if (slopeTo(p1) < slopeTo(p2)) {
                 return -1;
-            } else {
+            } else if (slopeTo(p1) > slopeTo(p2)) {
                 return 1;
+            } else {
+                return 0;
             }
         }
     }

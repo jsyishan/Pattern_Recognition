@@ -9,7 +9,6 @@ public class BruteCollinearPoints {
 
 
     private LineSegment[] lines;
-    private int P;  //  number of points
     private int S;  // number of segments
     private Point[] points;
 
@@ -38,25 +37,46 @@ public class BruteCollinearPoints {
             }
         }
 
-        P = ps.length;
-        S = 0;
-        this.points = new Point[P];
-        for (int i = 0; i < P; i++) {
+        this.points = new Point[ps.length];
+        for (int i = 0; i < ps.length; i++) {
             this.points[i] = ps[i];
         }
+
+        S = 0;
         search();
     }
 
     private void search() {
 
+        Point[] ps = points.clone();
+        int n = ps.length;
+
+        lines = new LineSegment[1];
+
+        for (int p = 0; p < n - 3; p++) {
+            for (int q = p + 1; q < n - 2; q++) {
+                for (int r = q + 1; r < n - 1; r++) {
+                    for (int s = r + 1; s < n; s++) {
+                        if ((ps[p].slopeTo(ps[q]) == ps[p].slopeTo(ps[r])) && (ps[p].slopeTo(ps[q]) == ps[p].slopeTo(ps[s]))) {
+                            if (lines.length == S) {
+                                resize(S * 2);
+                            }
+                            lines[S++] = new LineSegment(ps[p], ps[s]);
+                        }
+                    }
+                }
+            }
+        }
+
+        resize(S);
     }
 
     private void resize(int size) {
-        Point[] tmp = new Point[size];
-        for (int i = 0; i < P; i++) {
-            tmp[i] = points[i];
+        LineSegment[] tmp = new LineSegment[size];
+        for (int i = 0; i < S; i++) {
+            tmp[i] = lines[i];
         }
-        points = tmp;
+        lines = tmp;
     }
 
 
